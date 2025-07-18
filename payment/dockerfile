@@ -1,0 +1,8 @@
+FROM python:3.9
+WORKDIR /opt/server
+COPY  /payment.ini .
+COPY /payment.py .
+COPY /rabbitmq.py .
+COPY /requirements.txt .
+RUN pip install -r requirements.txt
+CMD ["uwsgi", "--ini", "payment.ini"]

@@ -1,0 +1,8 @@
+FROM nodejs:20
+WORKDIR /app/server
+COPY /package.json .
+COPY /*.js .
+RUN npm install
+ENV redis=true
+ENV redis_url=redis://redis:6379
+CMD ["npm", "start"]
