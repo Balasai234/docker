@@ -1,0 +1,30 @@
+networks:
+  default:
+    driver: bridge
+    name: roboshop
+    external: true # This network is created externally
+services:
+  mongodb:
+    image: mongodb:v1
+    container_name: mongodb
+  catalogue:
+    image: catalogue:v1
+    container_name: catalogue
+    depends_on:
+    - mongodb
+  redis:
+    image: redis:v1
+    container_name: redis
+  cart:
+    image: cart:v1
+    container_name: cart
+    depends_on:
+    - redis
+    - catalogue
+  user:
+    image: user:v1
+    container_name: user
+    depends_on:
+    - redis
+    - mongodb
+  
