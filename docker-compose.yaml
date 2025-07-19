@@ -27,4 +27,33 @@ services:
     depends_on:
     - redis
     - mongodb
-  
+  rabbitmq:
+    image: rabbitmq:v1
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=roboshop
+      - RABBITMQ_DEFAULT_PASS=roboshop123
+  shipping:
+    image: shipping:v1
+    container_name: shipping
+    depends_on:
+    - cart
+    - mysql
+  mysql:
+    image: mysql:v1
+    container_name: mysql
+  payment:
+    image: payment:v1
+    container_name: payment
+    environment:
+      - CART_HOST=cart
+      - CART_PORT=8080
+      - USER_HOST=user
+      - USER_PORT=8081
+      - AMQP_HOST=rabbitmq
+      - AMQP_USER=roboshop
+      - AMQP_PASS=roboshop123
+    depends_on:
+    - cart
+    - user
+    - rabbitmq
